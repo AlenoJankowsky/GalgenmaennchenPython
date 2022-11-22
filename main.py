@@ -1,3 +1,6 @@
 from HangmanStages import stages
 
-print(stages[0])
+def print_hangman_stage(stage):
+    print(stages[stage])
+
+print_hangman_stage(0)
