@@ -31,6 +31,13 @@ def fill_letters_in_word(word_completion, random_word, user_guess):
     return word_completion
 
 
+def fill_guess_in_used_guess_list(used_guess_list, user_guess):
+    if user_guess not in used_guess_list:
+        used_guess_list.append(user_guess)
+
+    return used_guess_list
+
+
 def guess_has_number(user_guess):
     return any(char.isdigit() for char in user_guess)
 
@@ -40,6 +47,7 @@ def play(random_word):
     print(f"Hallo {user_name}, du bist gerade dabei Hangman zu spielen. Viel Spaß!")
     print(random_word)
     hidden_letter_symbol = "_"
+    used_guess_list = []
     remaining_tries = 6
     word_was_guessed = False
     word_completion = hidden_letter_symbol * len(random_word)
@@ -51,6 +59,11 @@ def play(random_word):
 
         if guess_has_number(user_guess):
             print("Bitte geben Sie nur Buchstaben oder ein Wort ein.")
+            continue
+
+        if user_guess in used_guess_list:
+            print(f"Du hast '{user_guess}' schon mal versucht.")
+            print(word_completion)
             continue
 
         if user_guess not in random_word and user_guess:
@@ -69,6 +82,7 @@ def play(random_word):
 
             word_was_guessed = hidden_letter_symbol not in word_completion
         print(word_completion)
+        fill_guess_in_used_guess_list(used_guess_list, user_guess)
 
     if word_was_guessed:
         print("Herzlichen Glückwünsch, Sie haben gewonnen :).")
